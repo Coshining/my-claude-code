@@ -1,0 +1,31 @@
+import os
+
+from anthropic import Anthropic
+from dotenv import load_dotenv
+
+load_dotenv(override=True)  # 把.env里的配置放进了系统的环境变量里
+
+# 如果实际上本机已经在系统变量里配了url就不需要.env里的token了
+ANTHROPIC_BASE_URL = os.getenv("ANTHROPIC_BASE_URL")
+if ANTHROPIC_BASE_URL:
+    os.environ.pop("ANTHROPIC_AUTH_TOKEN", None)
+
+CLIENT = Anthropic(base_url=ANTHROPIC_BASE_URL)  # 两种方式，要么url，要么key+token
+
+MODEL = os.getenv("MODEL_ID")
+
+# 系统角色prompt：你是指定路径下的一个编码助手，使用命令行的形式解决问题。另外，不需要解释。
+SYSTEM = f"You are a coding agent at {os.getcwd()}. Use bash to solve tasks. Act, don't explain."
+
+# 工具
+TOOLS = [
+    {
+        "name": "bash",
+        "description": "Run a shell command",
+        "input_schema": {
+            "type": "Object",
+            "properties": {"command": {"type": "string"}},
+            "required": ["command"],
+        },
+    }
+]
