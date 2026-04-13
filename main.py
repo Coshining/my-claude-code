@@ -1,14 +1,10 @@
 from agent import agent_loop
 from utils import extract_text
 
-if __name__ == "__main__":
+
+def setup(query: str):
     history = []
     while True:
-        try:
-            query = input("\033[36m用户提问： >> \033[0m")
-        except (EOFError, KeyboardInterrupt):
-            break
-
         if query.strip().lower() in ("q", "exit", ""):
             break
 
@@ -19,3 +15,13 @@ if __name__ == "__main__":
         if final_text:
             print(f"最终结果：{final_text}")
         print()
+
+        try:
+            query = input("\033[36m用户提问： >> \033[0m")
+        except (EOFError, KeyboardInterrupt):
+            break
+
+
+if __name__ == "__main__":
+    # setup(input("\033[36m用户提问： >> \033[0m"))
+    setup("创建hello.py文件，文件里只有一个作用，打印出'hello world!'")
