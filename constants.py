@@ -1,4 +1,5 @@
 import os, platform
+from pathlib import Path
 
 from anthropic import Anthropic
 from dotenv import load_dotenv
@@ -20,15 +21,56 @@ SYSTEM = (
     "Use bash to solve tasks, and use commands appropriate to the environment. Act, don't explain."
 )
 
+WORKDIR = Path.cwd()
+
 # 工具
 TOOLS = [
     {
         "name": "bash",
-        "description": "Run a shell command",
+        "description": "Run a shell command.",
         "input_schema": {
             "type": "Object",
             "properties": {"command": {"type": "string"}},
             "required": ["command"],
         },
-    }
+    },
+    {
+        "name": "read_file",
+        "description": "Read file content.",
+        "input_schema": {
+            "type": "Object",
+            "properties": {
+                "path": {"type": "string"},
+                "limit": {"type": "integer"},
+            },
+            "required": ["path"],
+        },
+    },
+    {
+        "name": "write_file",
+        "description": "Write content to file.",
+        "input_schema": {
+            "type": "Object",
+            "properties": {
+                "path": {"type": "string"},
+                "content": {"type": "string"},
+            },
+            "required": ["path", "content"],
+        },
+    },
+    {
+        "name": "edit_file",
+        "description": "Replace exact text in file.",
+        "input_schema": {
+            "type": "Object",
+            "properties": {
+                "path": {"type": "string"},
+                "old_text": {"type": "string"},
+                "new_text": {"type": "string"},
+            },
+            "required": ["path", "old_text", "new_text"],
+        },
+    },
 ]
+
+MAXCHARSIZE = 50000

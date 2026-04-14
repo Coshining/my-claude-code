@@ -1,4 +1,4 @@
-import tools
+from tools import TOOL_HANDLERS
 
 
 def extract_text(context) -> str:
@@ -21,11 +21,12 @@ def excute_tool_calls(response_context) -> list[dict]:
             continue
 
         tool_name = block.name
-        command = block.input["command"]
-        print(f"\033[33m$ {tool_name}工具调用：{command}\033[0m")
-
-        output = tools.run_bash(command)
-        print(f"{tool_name}工具调用结果：{output[:200]}")
+        handler = TOOL_HANDLERS.get(tool_name)
+        output = handler(**block.input) if handler else f"Unknown tool: {tool_name}"
+        print(f"> {tool_name}")
+        if len(output) > 200:
+            output = output[:200] + "...(more info be hidden)"
+        print(output)
 
         results.append(
             {
