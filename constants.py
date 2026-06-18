@@ -74,3 +74,21 @@ TOOLS = [
 ]
 
 MAXCHARSIZE = 50000
+
+DENY_LIST = [
+    "rm -rf /", "sudo", "shutdown", "reboot",
+    "mkfs", "dd if=", "> /dev/sda",
+]
+
+PERMISSION_RULES = [
+    {
+        "tools": ["write_file", "edit_file"],
+        "check": lambda args: not (WORKDIR / args.get("path", "")).resolve().is_relative_to(WORKDIR),
+        "message": "Writing outside workspace",
+    },
+    {
+        "tools": ["bash"],
+        "check": lambda args: any(kw in args.get("command", "") for kw in ["rm ", "> /etc/", "chmod 777"]),
+        "message": "Potentially destructive command",
+    },
+]

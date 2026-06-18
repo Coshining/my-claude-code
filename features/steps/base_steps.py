@@ -10,9 +10,21 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 def step_impl(context):
     context.client = constants.CLIENT
 
-@given("{task}")
-def step_impl(context, task: str):
+@given("task={task}")
+def task_step_impl(context, task: str):
     context.task = task
+
+@given("allow={allow}")
+def allow_step_impl(context, allow: str):
+    # 定义一个模拟的input函数，保留打印的提示符行为
+    def mock_input_func(prompt: str) -> str:
+        # 如果不加，--no-capture时看不到程序询问
+        print(prompt, end="")
+        return allow
+    
+    # 拦截内置input函数
+    with patch('builtins.input', side_effect=mock_input_func()):
+        pass
 
 @when("Agent start")
 def step_impl(context):

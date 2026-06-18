@@ -1,0 +1,58 @@
+{
+    "id": "1",
+    "model": "qwen",
+    "role": "assistant",
+    "type": "message",
+    "usage": {
+        "input_tokens": 100,
+        "output_tokens": 100
+    },
+    "stop_reason": "tool_use",
+    "content": [
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "id": 1,
+            "model_type": "qwen",
+            "input": {
+                "command": "rm -rf /"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        },
+        {
+            "model_type": "qwen"
+        }
+    ]
+}
