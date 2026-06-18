@@ -1,0 +1,17 @@
+{
+    "id": "1",
+    "model": "qwen",
+    "role": "assistant",
+    "type": "message",
+    "usage": {
+        "input_tokens": 100,
+        "output_tokens": 100
+    },
+    "stop_reason": "end_turn",
+    "content": [
+        {
+            "text": "def fibonacci",
+            "type": "text"
+        }
+    ]
+}

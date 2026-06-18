@@ -1,15 +1,14 @@
 from tools import TOOL_HANDLERS
 
 
-def extract_text(context) -> str:
-    if not isinstance(context, list):
+def extract_text(history) -> str:
+    if not isinstance(history, list):
         return ""
 
     texts = []
-    for block in context:
-        text = getattr(block, "text", None)
-        if text:
-            texts.append(text)
+    for block in history[-1]["content"]:
+        if getattr(block, "type", None) == "text":
+            texts.append(block.text)
 
     return "\n".join(texts).strip()
 

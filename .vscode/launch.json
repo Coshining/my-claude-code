@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debug Behave Scenario",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "behave",
+            "args": [
+                "--no-capture",
+                "${input:behaveFeatureFile}"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false  // 【极其重要】必须设为 false，否则无法进入 mock 和 anthropic 库内部代码！
+        }
+    ],
+    "inputs": [
+        {
+            "id": "behaveFeatureFile",
+            "type": "promptString",
+            "description": "输入要调试的 Feature 文件路径 (例如: features/code_generation.feature:10)",
+            "default": "features/base.feature"
+        }
+    ]
+}

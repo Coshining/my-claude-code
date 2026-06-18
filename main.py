@@ -21,6 +21,14 @@ def setup(query: str):
         except (EOFError, KeyboardInterrupt):
             break
 
+def one_query_for_test(query: str) -> str:
+    history = []
+    history.append({"role": "user", "content": query})
+    agent_loop(history)
+
+    final_text = extract_text(history)
+    return final_text if final_text else ""
+
 
 if __name__ == "__main__":
     # setup(input("\033[36m用户提问： >> \033[0m"))
