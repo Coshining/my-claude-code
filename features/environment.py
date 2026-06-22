@@ -14,29 +14,37 @@ def create_sequential_side_effect(base_filename):
     
     def side_effect_func(*args, **kwargs):
         nonlocal call_count
+
+        print(f"[Mock 拦截器] 拦截第 {call_count} 次请求", end="")
+        filename = f"{base_filename}_{call_count}"
+        mock_text = get_mock_response(filename)
         
-        # 拼接当前轮次应该读取的文件名
-        filename = f"{base_filename}_{call_count}.json"
+        # 调用次数加一，为下一次准备
+        call_count += 1
+
+        return mock_text
+        
+    return side_effect_func
+
+def get_mock_response(filename) -> str:
+    # 拼接当前轮次应该读取的文件名
+        filename = f"{filename}.json"
         filepath = os.path.join(MOCK_DIR, filename)
         
         if not os.path.exists(filepath):
             # 如果文件不存在，说明 Agent 陷入了死循环或者测试用例没写完
-            raise Exception(f"Agent 请求次数过多！找不到第 {call_count} 轮的 Mock 文件: {filepath}")
+            raise Exception(f"Agent 请求次数过多！找不到 Mock 文件: {filepath}")
             
         # 读取文件内容
         with open(filepath, 'r', encoding='utf-8') as f:
             mock_text = f.read()
             
-        print(f"[Mock 拦截器] 拦截第 {call_count} 次请求，读取文件: {filename}")
+        print(f"读取文件: {filename}")
         
         # 构造 Anthropic 标准响应结构
         mock_response = Message(**json.loads(mock_text))
         
-        # 调用次数加一，为下一次准备
-        call_count += 1
         return mock_response
-        
-    return side_effect_func
 
 def before_scenario(context, scenario):
     context.mock_side_effect = None
@@ -46,6 +54,7 @@ def before_scenario(context, scenario):
         # 使用新标签 @mock_agent_flow("基础文件名")
         if tag.startswith("mock_agent_flow"):
             base_name = tag.split("=", 1)[1].strip('"\'')
+            base_name = "\\".join(base_name.split("."))
             # 将动态函数挂载到 context 上
             context.mock_side_effect = create_sequential_side_effect(base_name)
             
@@ -54,3 +63,8 @@ def before_scenario(context, scenario):
             error_type = tag.split("=", 1)[1].strip('"\'')
             if error_type == "auth":
                 context.error_to_simulate = Exception("Simulated Authentication Error")
+
+        elif tag.startswith("tool_call"):
+            base_name = tag.split("=", 1)[1].strip('"\'')
+            base_name = "\\".join(base_name.split("."))
+            context.mock_response = get_mock_response(base_name)

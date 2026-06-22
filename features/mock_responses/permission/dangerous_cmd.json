@@ -1,0 +1,56 @@
+{
+    "id": "1",
+    "model": "qwen",
+    "role": "assistant",
+    "type": "message",
+    "usage": {
+        "input_tokens": 100,
+        "output_tokens": 100
+    },
+    "stop_reason": "tool_use",
+    "content": [
+        {
+            "id": "1",
+            "input": {
+                "path": "z:\\yyy",
+                "content": "xxxx"
+            },
+            "name": "write_file",
+            "type": "tool_use"
+        },
+        {
+            "id": "2",
+            "input": {
+                "path": "z:\\yyy",
+                "old_text": "xxxx",
+                "new_text": "yyyy"
+            },
+            "name": "edit_file",
+            "type": "tool_use"
+        },
+        {
+            "id": "3",
+            "input": {
+                "command": "rm xxx"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "4",
+            "input": {
+                "command": "> /etc/passwd"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "5",
+            "input": {
+                "command": "chmod 777 xxx"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        }
+    ]
+}

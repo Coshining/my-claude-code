@@ -1,0 +1,77 @@
+{
+    "id": "1",
+    "model": "qwen",
+    "role": "assistant",
+    "type": "message",
+    "usage": {
+        "input_tokens": 100,
+        "output_tokens": 100
+    },
+    "stop_reason": "tool_use",
+    "content": [
+        {
+            "id": "1",
+            "input": {
+                "command": "rm -rf /"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "2",
+            "input": {
+                "command": "sudo xxx"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "3",
+            "input": {
+                "command": "shutdown"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "4",
+            "input": {
+                "command": "shutdown"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "5",
+            "input": {
+                "command": "reboot"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "6",
+            "input": {
+                "command": "mkfs xxx"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "7",
+            "input": {
+                "command": "dd if=xxx"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        },
+        {
+            "id": "8",
+            "input": {
+                "command": "> /dev/sda"
+            },
+            "name": "bash",
+            "type": "tool_use"
+        }
+    ]
+}
